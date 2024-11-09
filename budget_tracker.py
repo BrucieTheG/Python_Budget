@@ -1,12 +1,16 @@
+import os
+import csv
+from datetime import datetime
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
 from openpyxl import Workbook, load_workbook
-from datetime import datetime
-import os
-import csv
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import numpy as np  # Importing NumPy
+import numpy as np
+
+# Global Variables
+wb = None
+ws = None
 
 # Function to create and/or load the Excel workbook
 def setup_excel():
@@ -21,7 +25,7 @@ def setup_excel():
         wb = load_workbook("input_data.xlsx")
         ws = wb.active
 
-setup_excel()
+setgup_excel()
 
 # Function to save input to Excel and update the GUI
 def save_to_excel():
@@ -87,11 +91,12 @@ def export_to_csv():
         status_label.config(text="Invalid input. Please enter in MM-YYYY format.")
         return
     month, year = map(int, dialog.split('-'))
-    if not (1 <= month <= 12) or not (2000 <= year <= 2100):
+    if not 1 <= month <= 12 or not 2000 <= year <= 2100:
         status_label.config(text="Invalid month or year.")
         return
 
-    with open(f'budget_data_{month}_{year}.csv', 'w', newline='') as file:
+    with open(f'budget_data_{month}_{year}.csv',
+              'w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(["Description", "Amount", "Category", "Date"])  # Add header
         for i, row in enumerate(ws.iter_rows(values_only=True)):
@@ -102,7 +107,7 @@ def export_to_csv():
             if row_date.month == month and row_date.year == year:
                 writer.writerow(row)
     status_label.config(text=f"Data for {month:02}/{year} exported to CSV!")
-
+    
 # Function to open the charts window
 def open_charts_window():
     global chart_window, canvas_pie, canvas_line, ax_pie, ax_line
