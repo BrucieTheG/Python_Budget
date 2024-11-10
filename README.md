@@ -1,5 +1,5 @@
 Budget Tracker
-A simple and intuitive budget tracking application built with Python and Tkinter, designed to help you manage your expenses and income effectively.
+A simple and easy budget tracking application built with Python and Tkinter, designed to help you manage your expenses and income effectively.
 
 Features
 Expense and Income Tracking: Record and categorize your expenses and income.
